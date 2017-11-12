@@ -15,8 +15,9 @@ class Shape {
 //: Create an instance of a class by putting parentheses after the class name. Use dot syntax to access the properties and methods of the instance.
 //:
 var shape = Shape()
-shape.numberOfSides = 7
+shape.numberOfSides = 7    // this behaves like a public data member in c++ or java
 var shapeDescription = shape.simpleDescription()
+print(shapeDescription)
 
 //: This version of the `Shape` class is missing something important: an initializer to set up the class when an instance is created. Use `init` to create one.
 //:
@@ -24,14 +25,24 @@ class NamedShape {
     var numberOfSides: Int = 0
     var name: String
 
+    // a constructor
+    init() {
+        self.name = "Default name"
+        numberOfSides = 5
+    }
     init(name: String) {
        self.name = name
     }
 
     func simpleDescription() -> String {
-       return "A shape with \(numberOfSides) sides."
+       return "A shape named \(name) with \(numberOfSides) sides."
     }
 }
+
+var nameShape1 = NamedShape()
+var nameShape2 = NamedShape(name: "Custom shape")
+print(nameShape1.simpleDescription())
+print(nameShape2.simpleDescription())
 
 //: Notice how `self` is used to distinguish the `name` property from the `name` argument to the initializer. The arguments to the initializer are passed like a function call when you create an instance of the class. Every property needs a value assigned—either in its declaration (as with `numberOfSides`) or in the initializer (as with `name`).
 //:
@@ -47,7 +58,7 @@ class Square: NamedShape {
     init(sideLength: Double, name: String) {
         self.sideLength = sideLength
         super.init(name: name)
-        numberOfSides = 4
+        numberOfSides = 4 // this behaves like a protected or public
     }
 
     func area() -> Double {
@@ -59,8 +70,8 @@ class Square: NamedShape {
     }
 }
 let test = Square(sideLength: 5.2, name: "my test square")
-test.area()
-test.simpleDescription()
+print(test.area())
+print(test.simpleDescription())
 
 //: - Experiment:
 //: Make another subclass of `NamedShape` called `Circle` that takes a radius and a name as arguments to its initializer. Implement an `area()` and a `simpleDescription()` method on the `Circle` class.
@@ -76,6 +87,7 @@ class EquilateralTriangle: NamedShape {
         numberOfSides = 3
     }
 
+    // Very interesting get and set 
     var perimeter: Double {
         get {
              return 3.0 * sideLength
@@ -85,6 +97,7 @@ class EquilateralTriangle: NamedShape {
         }
     }
 
+    // Override function uses special keyword
     override func simpleDescription() -> String {
         return "An equilateral triangle with sides of length \(sideLength)."
     }
@@ -123,7 +136,8 @@ class TriangleAndSquare {
     }
 }
 var triangleAndSquare = TriangleAndSquare(size: 10, name: "another test shape")
-print(triangleAndSquare.square.sideLength)
+print("triangle and square")
+print(triangleAndSquare.square.sideLength) // looks like all data members are public by default
 print(triangleAndSquare.triangle.sideLength)
 triangleAndSquare.square = Square(sideLength: 50, name: "larger square")
 print(triangleAndSquare.triangle.sideLength)
@@ -132,6 +146,7 @@ print(triangleAndSquare.triangle.sideLength)
 //:
 let optionalSquare: Square? = Square(sideLength: 2.5, name: "optional square")
 let sideLength = optionalSquare?.sideLength
+// this expression above is still so confusing.
 
 
 

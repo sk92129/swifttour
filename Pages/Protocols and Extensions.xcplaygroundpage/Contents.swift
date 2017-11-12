@@ -1,10 +1,11 @@
 //: ## Protocols and Extensions
+// this protocol is like an abstract class in Java, or a class with pure virtual methods in C++
 //:
 //: Use `protocol` to declare a protocol.
 //:
 protocol ExampleProtocol {
-     var simpleDescription: String { get }
-     mutating func adjust()
+     var simpleDescription: String { get } // this means there is a get only operator?
+     mutating func adjust()  // it does not use "void" if the function does not return anything
 }
 
 //: Classes, enumerations, and structs can all adopt protocols.
@@ -12,14 +13,14 @@ protocol ExampleProtocol {
 class SimpleClass: ExampleProtocol {
      var simpleDescription: String = "A very simple class."
      var anotherProperty: Int = 69105
-     func adjust() {
+     func adjust() { // does not use "void" if the func does not return
           simpleDescription += "  Now 100% adjusted."
      }
 }
 var a = SimpleClass()
 a.adjust()
 let aDescription = a.simpleDescription
-
+print(aDescription)
 struct SimpleStructure: ExampleProtocol {
      var simpleDescription: String = "A simple structure"
      mutating func adjust() {
@@ -29,7 +30,7 @@ struct SimpleStructure: ExampleProtocol {
 var b = SimpleStructure()
 b.adjust()
 let bDescription = b.simpleDescription
-
+print(bDescription)
 //: - Experiment:
 //: Write an enumeration that conforms to this protocol.
 //:
@@ -37,7 +38,7 @@ let bDescription = b.simpleDescription
 //:
 //: Use `extension` to add functionality to an existing type, such as new methods and computed properties. You can use an extension to add protocol conformance to a type that is declared elsewhere, or even to a type that you imported from a library or framework.
 //:
-extension Int: ExampleProtocol {
+extension Double: ExampleProtocol {
     var simpleDescription: String {
         return "The number \(self)"
     }
@@ -45,7 +46,7 @@ extension Int: ExampleProtocol {
         self += 42
     }
  }
-print(7.simpleDescription)
+print(9.simpleDescription)
 
 //: - Experiment:
 //: Write an extension for the `Double` type that adds an `absoluteValue` property.
@@ -54,7 +55,7 @@ print(7.simpleDescription)
 //:
 let protocolValue: ExampleProtocol = a
 print(protocolValue.simpleDescription)
-// print(protocolValue.anotherProperty)  // Uncomment to see the error
+//print(protocolValue.anotherProperty)  // Uncomment to see the error
 
 //: Even though the variable `protocolValue` has a runtime type of `SimpleClass`, the compiler treats it as the given type of `ExampleProtocol`. This means that you can’t accidentally access methods or properties that the class implements in addition to its protocol conformance.
 //:

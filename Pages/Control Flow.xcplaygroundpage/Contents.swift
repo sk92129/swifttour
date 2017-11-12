@@ -66,14 +66,20 @@ let interestingNumbers = [
     "Square": [1, 4, 9, 16, 25],
 ]
 var largest = 0
+
+// the variable kind is the "key" in the interestingNumbers
+// numbers is the "value" part of the interestingNumbers
+var whichKind = ""
 for (kind, numbers) in interestingNumbers {
-    for number in numbers {
-        if number > largest {
+    for number in numbers {  // the optional parenthesis is not allowed here for strange reason
+        if (number > largest) {
             largest = number
+            whichKind = kind  // tell me which array of numbers it picked
         }
     }
 }
 print(largest)
+print(whichKind)
 
 //: - Experiment:
 //: Add another variable to keep track of which kind of number was the largest, as well as what that largest number was.

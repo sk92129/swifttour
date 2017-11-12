@@ -7,6 +7,12 @@ func greet(person: String, day: String) -> String {
 }
 greet(person: "Bob", day: "Tuesday")
 
+var greetingToBob = greet(person: "Bob", day: "Tuesday")
+print(greetingToBob)
+
+var greetingToSean = greet(person: "Sean",day: "Wednesday")
+print(greetingToSean)
+
 //: - Experiment:
 //: Remove the `day` parameter. Add a parameter to include today’s lunch special in the greeting.
 //:
@@ -15,13 +21,16 @@ greet(person: "Bob", day: "Tuesday")
 func greet(_ person: String, on day: String) -> String {
     return "Hello \(person), today is \(day)."
 }
-greet("John", on: "Wednesday")
+print(greet( "John", on: "Wednesday")) // the first parameter does not need a label by the caller
+print(greet(person: "Joshua", day: "Tuesday"))
+// Now you can see that there are two functions with the same name
+// but with different parameters so it makes it two distinct functions like c++ and java
 
 //: Use a tuple to make a compound value—for example, to return multiple values from a function. The elements of a tuple can be referred to either by name or by number.
 //:
 func calculateStatistics(scores: [Int]) -> (min: Int, max: Int, sum: Int) {
     var min = scores[0]
-    var max = scores[0]
+    var max = scores[0] // use the zero-based element from the scores array
     var sum = 0
 
     for score in scores {
@@ -37,7 +46,9 @@ func calculateStatistics(scores: [Int]) -> (min: Int, max: Int, sum: Int) {
 }
 let statistics = calculateStatistics(scores: [5, 3, 100, 3, 9])
 print(statistics.sum)
-print(statistics.2)
+print(statistics.2)   // the 2th (zero based) attribute of statistics
+print(statistics.max)
+print(statistics.min)
 
 //: Functions can be nested. Nested functions have access to variables that were declared in the outer function. You can use nested functions to organize the code in a function that is long or complex.
 //:
@@ -49,7 +60,7 @@ func returnFifteen() -> Int {
     add()
     return y
 }
-returnFifteen()
+print(returnFifteen())
 
 //: Functions are a first-class type. This means that a function can return another function as its value.
 //:
@@ -60,13 +71,14 @@ func makeIncrementer() -> ((Int) -> Int) {
     return addOne
 }
 var increment = makeIncrementer()
-increment(7)
+print(increment(7))
 
 //: A function can take another function as one of its arguments.
 //:
 func hasAnyMatches(list: [Int], condition: (Int) -> Bool) -> Bool {
     for item in list {
         if condition(item) {
+            print(item)
             return true
         }
     }
@@ -76,14 +88,16 @@ func lessThanTen(number: Int) -> Bool {
     return number < 10
 }
 var numbers = [20, 19, 7, 12]
-hasAnyMatches(list: numbers, condition: lessThanTen)
+print(hasAnyMatches(list: numbers, condition: lessThanTen))
 
 //: Functions are actually a special case of closures: blocks of code that can be called later. The code in a closure has access to things like variables and functions that were available in the scope where the closure was created, even if the closure is in a different scope when it is executed—you saw an example of this already with nested functions. You can write a closure without a name by surrounding code with braces (`{}`). Use `in` to separate the arguments and return type from the body.
 //:
-numbers.map({ (number: Int) -> Int in
+let numberresult = numbers.map({ (number: Int) -> Int in
     let result = 3 * number
     return result
 })
+
+print(numberresult)
 
 //: - Experiment:
 //: Rewrite the closure to return zero for all odd numbers.
@@ -92,6 +106,7 @@ numbers.map({ (number: Int) -> Int in
 //:
 let mappedNumbers = numbers.map({ number in 3 * number })
 print(mappedNumbers)
+print("2nd mapped numbers")
 
 //: You can refer to parameters by number instead of by name—this approach is especially useful in very short closures. A closure passed as the last argument to a function can appear immediately after the parentheses. When a closure is the only argument to a function, you can omit the parentheses entirely.
 //:

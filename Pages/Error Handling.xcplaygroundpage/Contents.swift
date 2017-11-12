@@ -5,13 +5,13 @@
 enum PrinterError: Error {
     case outOfPaper
     case noToner
-    case onFire
+    case onFire   // haha!
 }
 
 //: Use `throw` to throw an error and `throws` to mark a function that can throw an error. If you throw an error in a function, the function returns immediately and the code that called the function handles the error.
 //:
 func send(job: Int, toPrinter printerName: String) throws -> String {
-    if printerName == "Never Has Toner" {
+    if printerName == "Never Has Toner" { // 2nd parameter has two names?
         throw PrinterError.noToner
     }
     return "Job sent"
@@ -21,8 +21,10 @@ func send(job: Int, toPrinter printerName: String) throws -> String {
 //:
 do {
     let printerResponse = try send(job: 1040, toPrinter: "Bi Sheng")
+    print("regular processed")
     print(printerResponse)
 } catch {
+    print("error caught")
     print(error)
 }
 
@@ -34,6 +36,7 @@ do {
 do {
     let printerResponse = try send(job: 1440, toPrinter: "Gutenberg")
     print(printerResponse)
+    print("regular processed")
 } catch PrinterError.onFire {
     print("I'll just put this over here, with the rest of the fire.")
 } catch let printerError as PrinterError {
@@ -64,7 +67,7 @@ func fridgeContains(_ food: String) -> Bool {
     let result = fridgeContent.contains(food)
     return result
 }
-fridgeContains("banana")
+fridgeContains("banana") // parameter name not required because of _
 print(fridgeIsOpen)
 
 
